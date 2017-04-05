@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,13 +31,20 @@
     <div class="blog-masthead changeclr">
       <div class="container">
         <nav class="blog-nav">
-            <a class="blog-nav-item active" href="index.html">主页</a>
-            <a class="blog-nav-item" href="newindex.html">新文章</a>
+            <a class="blog-nav-item active" href="index.php">主页</a>
+            <a class="blog-nav-item" href="newindex.php">新文章</a>
             <input type="button" data-value="default" class="targetElem" value="default"/>
             <input type="button" data-value="green" class="targetElem" value="green"/>
             <input type="button" data-value="red" class="targetElem" value="red"/>
             <input type="button" data-value="orange" class="targetElem" value="orange"/>
-            <a class="blog-nav-item signin" href="../signin/index.html">登录</a>
+            <?php if (true) {
+                echo '<span class="blog-nav-item signin">';
+                echo $_SESSION['username'];
+                echo '</span>';
+            } else {
+                echo '<a class="blog-nav-item signin" href="../signin/index.html">登录</a>';
+            }
+            ?>
             <a class="blog-nav-item signin" href="../register/register.html">注册</a>
         </nav>
       </div>
@@ -65,7 +75,29 @@
         </div><!-- /.row -->
         
     </div><!-- /.container -->
-    <div id="cont"></div>
-    
+    <div id="cont">
+    <a href="##">asdasd</a>
+    </div>
+    <script>
+        $.ajax({
+            url: '../php/all.php',
+            success: function(res) {
+                res = JSON.parse(res);
+                // console.log(res);
+                for (var i = 0, len = res.length; i < len; i++) {
+                    // var a = $(`
+                    //     <div>
+                    //         <h1>${res[0].name}<small>${res[0].id}</small> </h1>
+                    //         <div>${res[0].content}</div>
+                    //         <p>${res[0].time}</p>
+                    //     </div>
+                    // `);
+                    var hh = $('<div><h1>' + res[i].name + '<small>' + res[i].id + 
+                        '</small> </h1><div>' + res[i].content + '</div><p>' + res[i].time + '</p></div>')
+                    $('#cont').append(hh);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

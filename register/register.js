@@ -21,7 +21,7 @@ $(function(){
                     var data = JSON.parse(data); 
                     if (data.status_code == 2) {
                         document.getElementById("urge").innerHTML = "注册成功";
-                        window.location.href = '../signin/index.html';
+                        window.location.href = '../signin/index.php';
                     }else if (data.status_code == 1) {
                         document.getElementById("urge").innerHTML = "用户名已存在";
                     } else{

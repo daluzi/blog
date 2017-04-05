@@ -28,8 +28,8 @@
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
-          <a class="blog-nav-item" href="index.html">主页</a>
-          <a class="blog-nav-item" href="newindex.html">新文章</a>
+          <a class="blog-nav-item" href="index.php">主页</a>
+          <a class="blog-nav-item" href="newindex.php">新文章</a>
         </nav>
       </div>
     </div>
@@ -62,15 +62,9 @@
 
     <script type="text/javascript">
         var ue = UE.getEditor('container');
-        document.querySelector("#baocun").addEventListener( "click",function(){ 
-            var txt = ue.getContent();
-            var div1 = document.createElement("div");
-            div1.innerHTML = txt;
-            div1.id = "div1";
-            div1.style = "width:600px;height:300px;position:relative;top:100px;left:204px;border:2px solid rgba(21, 37, 3, 0.05);margin-top:4px;"
-            document.body.appendChild(div1);
-        });
+        localStorage.removeItem('ueditor_preference');
     </script>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="new.js"></script>
   </body>
 </html>

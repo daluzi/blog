@@ -21,13 +21,13 @@ $password = $_POST['password'];
 include('../blog/conn.php');
 
 //检测用户名是否已经存在
-$sth = $dbh->prepare('SELECT * FROM blog_user where username = :username limit 1');
+$sth = $dbh->prepare('SELECT * FROM user where username = :username limit 1');
 $sth->bindParam('username', $username);
 $sth->execute();
 $res = $sth->fetchAll();
 if(!empty($res)) {
     echo json_encode([
-        'status_code' => 1,
+        'status_code' => 0,
         'status' => '错误：用户名 ',$username,' 已存在.'
     ]);
     exit;
@@ -35,12 +35,12 @@ if(!empty($res)) {
 //写入数据
 $password = MD5($password);
 
-$sth = $dbh->prepare('INSERT INTO blog_user(id, username, password, theme) VALUES(null, :username,:password, "默认主题")');
+$sth = $dbh->prepare('INSERT INTO user(id, username, password, theme) VALUES(null, :username,:password, "默认主题")');
 $sth->bindParam('username', $username);
 $sth->bindParam('password', $password);
-$check_query = $sth->execute();
+$res = $sth->execute();
 
-if($check_query) {
+if($res) {
     echo json_encode([
         'status_code' => 2,
         'status' => '注册成功'
