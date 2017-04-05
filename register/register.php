@@ -1,6 +1,4 @@
 <?php
-// include('../blog/conn.php');
-// var_dump($dbh);
 
 if(!isset($_POST['submit'])) {
     echo json_encode([
@@ -21,7 +19,7 @@ $password = $_POST['password'];
 // }
 
 include('../blog/conn.php');
-// var_dump($dbh); 
+
 //检测用户名是否已经存在
 $sth = $dbh->prepare('SELECT * FROM blog_user where username = :username limit 1');
 $sth->bindParam('username', $username);
@@ -36,8 +34,8 @@ if(!empty($res)) {
 }
 //写入数据
 $password = MD5($password);
-// $regdate = time();
-$sth = $dbh->prepare('INSERT INTO blog_user(id, username,password, theme) VALUES(null, :username,:password, "默认主题")');
+
+$sth = $dbh->prepare('INSERT INTO blog_user(id, username, password, theme) VALUES(null, :username,:password, "默认主题")');
 $sth->bindParam('username', $username);
 $sth->bindParam('password', $password);
 $check_query = $sth->execute();
