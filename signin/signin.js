@@ -18,7 +18,7 @@ $(function(){
                     var data = JSON.parse(data);
                     if (data.status_code == 1) {
                         document.getElementById("urge").innerHTML = "登录成功"; 
-                        window.location.href = '../blog/index.php';
+                        window.location.href = '../blog/newindex.php';
                     }else if (data.status_code == 2) {
                     	alert("用户名不纯在");
                     }else{

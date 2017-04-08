@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 if(!isset($_POST['submit'])) {
     echo json_encode([
@@ -27,6 +28,8 @@ if(!$res) {
 } else {
     if ($res[0]['password'] == MD5($password)) {
         $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $res[0]['id'];
+        // echo $_SESSION['user_id'];
         $_SESSION['theme'] = '默认主题';
         echo json_encode([
             'status_code' => 1,

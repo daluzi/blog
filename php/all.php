@@ -1,8 +1,13 @@
 <?php
-
+session_start();
 include('../blog/conn.php');
 
-$sth = $dbh->prepare('SELECT * FROM category');
+if (!isset($_SESSION['username'])) {
+    $id = $_SESSION['user_id'];
+    $sth = $dbh->prepare('SELECT * FROM category WHERE user_id = :id', ['id' => $id]);
+} else {
+    $sth = $dbh->prepare('SELECT * FROM category');
+}
 $sth->execute();
 $res = $sth->fetchAll();
 

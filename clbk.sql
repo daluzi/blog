@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : utf-8
 
- Date: 04/05/2017 23:37:17 PM
+ Date: 04/09/2017 00:30:39 AM
 */
 
 SET NAMES utf8mb4;
@@ -26,6 +26,7 @@ CREATE TABLE `category` (
   `name` varchar(50) NOT NULL,
   `content` text NOT NULL,
   `time` bigint(20) NOT NULL,
+  `user_id` int(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -33,7 +34,7 @@ CREATE TABLE `category` (
 --  Records of `category`
 -- ----------------------------
 BEGIN;
-INSERT INTO `category` VALUES ('1', 'first', 'hahdsn', '1490867687'), ('2', 'llpasd', '<a href=\"##\">asdasd</a>', '1491389401'), ('3', 'asd', '<p>​asd<br></p>', '1491404740');
+INSERT INTO `category` VALUES ('1', 'first', 'hahdsn', '1490867687', '2'), ('2', 'llpasd', '<a href=\"##\">asdasd</a>', '1491389401', '2'), ('3', 'asd', '<p>​asd<br></p>', '1491668970', '2');
 COMMIT;
 
 -- ----------------------------
