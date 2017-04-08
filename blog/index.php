@@ -22,7 +22,6 @@
       <div class="container">
             <nav class="blog-nav">
                 <a class="blog-nav-item active" href="index.php">主页</a>
-                <!-- <a class="blog-nav-item" href="newindex.php">新文章</a> -->   
                 <input type="button" data-value="default" class="targetElem" value="default"/>
                 <input type="button" data-value="green" class="targetElem" value="green"/>
                 <input type="button" data-value="red" class="targetElem" value="red"/>

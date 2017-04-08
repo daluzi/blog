@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,7 +23,14 @@
       <div class="container">
         <nav class="blog-nav">
             <a class="blog-nav-item" href="newindex.php">后台管理</a>
-            <a class="blog-nav-item signin" href="../signin/index.html">登录</a>
+            <?php if (isset($_SESSION['username'])) {
+                echo '<span class="blog-nav-item signin">';
+                echo $_SESSION['username'];
+                echo '</span>';
+            } else {
+                echo '<a class="blog-nav-item signin" href="../signin/index.php">登录</a>';
+            }
+            ?>
         </nav>
       </div>
     </div>
