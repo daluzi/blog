@@ -22,6 +22,6 @@ if($res) {
 } else {
     echo json_encode([
         'status_code' => 0,
-        'status' => '更新失败失败'
+        'status' => '更新文章失败'
     ]);
 }

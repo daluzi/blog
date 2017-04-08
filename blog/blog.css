@@ -5,6 +5,8 @@
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
+  background-color: rgba(195, 195, 195, 0.42);
+  background-image: url(./img/img.png);
 }
 
 h1, .h1,
@@ -160,21 +162,10 @@ h6, .h6 {
 #container{
     width: 600px;
     height: 200px;
-    display: none;
-    background-color: white;
+    /*display: none;*/  
+    background-color: #fff;
 }
-/*.content{
-    position: absolute;
-}
-#cont{
-    position: relative;
-}*/
-#cont{
-    width: 600px;
-    position: absolute;
-    left: 200px;
-    bottom: 0px;
-}
+
 
 /*
  * Footer
