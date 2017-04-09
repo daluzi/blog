@@ -22,10 +22,10 @@
       <div class="container">
             <nav class="blog-nav">
                 <a class="blog-nav-item active" href="index.php">主页</a>
-                <input type="button" data-value="default" class="targetElem" value="default"/>
-                <input type="button" data-value="green" class="targetElem" value="green"/>
-                <input type="button" data-value="red" class="targetElem" value="red"/>
-                <input type="button" data-value="orange" class="targetElem" value="orange"/>
+                <input type="button" data-value="default" class="targetElem" value="default" style="width: 50px; border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;" />
+                <input type="button" data-value="green" class="targetElem" value="green" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;" />
+                <input type="button" data-value="red" class="targetElem" value="red" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
+                <input type="button" data-value="orange" class="targetElem" value="orange" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
                 <?php if (isset($_SESSION['username'])) {
                     echo '<span class="blog-nav-item signin">';
                     echo $_SESSION['username'];
@@ -34,7 +34,7 @@
                     echo '<a class="blog-nav-item signin" href="../signin/index.php">登录</a>';
                 }
                 ?>
-                <a class="blog-nav-item signin" href="../register/register.php">注册</a>
+                <a class="blog-nav-item signin" href="../register/register.html">注册</a>
             </nav>
         </div>
     </div>

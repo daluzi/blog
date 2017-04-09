@@ -5,24 +5,19 @@ $(function(){
         }else if ($(".password").val() == "") {
             alert("密码不能为空");
         }else{
-            // 发送用户名和密码给后台
             $.ajax({
                 type : "POST",
                 url : "./register.php",
-                // contentType : "application/json",
                 data : {
                     submit: 'asdfghjks',    
                     username : $(".userName").val(),
                     password : $(".password").val()
                 },
                 success : function(data){
-                    // document.getElementById("urge").innerHTML = data;
-                    // console.log(data);
                     var data = JSON.parse(data); 
                     if (data.status_code == 2) {
                         document.getElementById("urge").innerHTML = "注册成功";
-                        // window.location.href = '../signin.php';
-                        window.location.href = '../signin/index.html';
+                        window.location.href = '../signin/index.php';
                     }else if (data.status_code == 1) {
                         document.getElementById("urge").innerHTML = "用户名已存在";
                     } else{

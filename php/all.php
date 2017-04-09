@@ -4,7 +4,8 @@ include('../blog/conn.php');
 
 if (!isset($_SESSION['username'])) {
     $id = $_SESSION['user_id'];
-    $sth = $dbh->prepare('SELECT * FROM category WHERE user_id = :id', ['id' => $id]);
+    $sth = $dbh->prepare('SELECT * FROM category WHERE user_id = :id');
+	$sth->bindParam('id', $id);
 } else {
     $sth = $dbh->prepare('SELECT * FROM category');
 }
