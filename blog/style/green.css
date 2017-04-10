@@ -1,10 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
+body {
+    background-image: url(../img/green.jpg);
+}
 *{padding:0;margin:0;}
 h2{color:#060;}
 p{color:#060;}
 .blog-masthead{
-	background-color: #060;
+	background-color: #59b859;
 }
 h4{color:#060;}
 button{color:#060;}

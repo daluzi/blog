@@ -7,6 +7,8 @@ body {
   color: #555;
   background-color: rgba(195, 195, 195, 0.42);
   background-image: url(./img/img.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 h1, .h1,
@@ -56,7 +58,7 @@ h6, .h6 {
   color: #fff;
   text-decoration: none;
 }
-.signin{
+.signin, .logout{
   position: relative;
   right: -650px;
 }
@@ -166,7 +168,10 @@ h6, .h6 {
     background-color: #fff;
 }
 
-
+.chgeesy {
+  float: right;
+  margin-right: 100px;
+}
 
 /*
  * Footer

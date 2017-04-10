@@ -26,15 +26,8 @@
                 <input type="button" data-value="green" class="targetElem" value="green" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;" />
                 <input type="button" data-value="red" class="targetElem" value="red" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
                 <input type="button" data-value="orange" class="targetElem" value="orange" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
-                <?php if (isset($_SESSION['username'])) {
-                    echo '<span class="blog-nav-item signin">';
-                    echo $_SESSION['username'];
-                    echo '</span>';
-                } else {
-                    echo '<a class="blog-nav-item signin" href="../signin/index.php">登录</a>';
-                }
-                ?>
-                <a class="blog-nav-item signin" href="../register/register.html">注册</a>
+                
+                <a class="blog-nav-item signin" href="./newindex.php">后台管理</a>
             </nav>
         </div>
     </div>
@@ -78,7 +71,6 @@
             url: '../php/all.php',
             success: function(res) {
                 res = JSON.parse(res);
-                // var tm = new Date();
                 for (var i = 0, len = res.length; i < len; i++) { 
                     var hh = $('<div class="newessay" style="height:400px;margin: 30px 0px 10px;border: 2px dashed #c3bdbd;border-radius:10px;"><h3>' +'文章'  + '<small>'+ res[i].id  +'</small>'+':' + res[i].name + '</h3><div>' + res[i].content + '</div></div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>')
                     $('#cont').prepend(hh);

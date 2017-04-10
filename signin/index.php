@@ -15,7 +15,10 @@
 <body>
     <div class="container">
       <form class="form-signin">
-        <h2 class="form-signin-heading">请登录</h2>
+        <h2 class="form-signin-heading">
+            请登录
+            <a href="../register/register.html" class="head-nav">注册</a>
+        </h2>
         <label for="inputEmail" class="sr-only">用户名</label>
         <input type="text" id="inputEmail" class="form-control userName" placeholder="用户名" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>

@@ -1,10 +1,15 @@
 @charset "utf-8";
 /* CSS Document */
 *{padding:0;margin:0;}
+body {
+    background-image: url(../img/red.jpg);
+    background-size: inherit;
+    background-repeat: repeat;
+}
 h2{color:#F00;}
 p{color:#F00;}
 .blog-masthead{
-	background-color: #F00;
+	background-color: #eb4d4d;
 }
 h4{color:#F00;}
 button{color:#F00;}

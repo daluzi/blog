@@ -1,46 +1,32 @@
 $(function() {
-    $('#baocun').click(function() {
-        var title = $('#name').val();
-        var content = localStorage.getItem('ueditor_preference');
-        content = JSON.parse(content)
-        content = content['http_localhost_clblog_blog_newindex_phpcontainer-drafts-data'];
+    if (!Date.format) {
+        Date.prototype.format = function (fmt) { //author: meizz 
+            var o = {
+                "M+": this.getMonth() + 1, //月份 
+                "d+": this.getDate(), //日 
+                "h+": this.getHours(), //小时 
+                "m+": this.getMinutes(), //分 
+                "s+": this.getSeconds(), //秒 
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                "S": this.getMilliseconds() //毫秒 
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    }
+    $('.logout').on('click', function(ev) {
+        ev.preventDefault();
         $.ajax({
-            url: 'http://localhost/clblog/php/upload.php',
-            type: 'POST',
-            data: {
-                name: title,
-                content,
-            },
+            url: '../php/logout.php',
             success: function(res) {
-                document.getElementById("displayey").innerHTML = "添加文章成功";
-            },
-            fail: err => {
-                console.log(err);
-            }
-        });
-    });
-});
-$(function() {
-    $('.chgeesy').on('click', function() {
-        var title = $(this).parent().find('.artile-title').html();
-        var contt = $(this).parent().find('.artile-contt').html();
-        var num = $(this).parent().find('.artile-num').html();
-        $.ajax({
-            url: '../php/modify.php',
-            type: 'POST',
-            data: {
-                name: title,
-                content: contt,
-                id: num,
-            },
-            success: function(data){
-                var data = JSON.parse(data);
-                if (data.status_code == 2) {
-                    console.log(status);
-                }else{
-                    console.log(status);
+                if (res) {
+                    alert('退出成功');
+                    location.href = '../signin/index.php';
                 }
             }
         });
     });
+
 });

@@ -1,5 +1,8 @@
 <?php 
     session_start();
+    if (!isset($_SESSION['username'])) {
+        header("Location: ../signin/index.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,13 +25,16 @@
     <div class="blog-masthead">
       <div class="container">
         <nav class="blog-nav">
-            <a class="blog-nav-item" href="newindex.php">后台管理</a>
+            <a class="blog-nav-item" href="./index.php">首页</a>
+            <a class="blog-nav-item" href="./newindex.php">后台管理</a>
+            <a class="blog-nav-item" href="./article.php">添加文章</a>
             <?php if (isset($_SESSION['username'])) {
                 echo '<span class="blog-nav-item signin">';
                 echo $_SESSION['username'];
-                echo '</span>';
+                echo '</span><a class="blog-nav-item logout" href="##">注销</a>';
+            
             } else {
-                echo '<a class="blog-nav-item signin" href="../signin/index.php">登录</a>';
+                header("Location: ../signin/index.php");
             }
             ?>
         </nav>
@@ -37,60 +43,83 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 blog-main">
-        </div><!-- /.blog-sidebar -->
+        </div>
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
                 <h4>关于</h4>
-                <p>此网页可以为博主发布新的博客文章</p>
+                <p>此网页为博主发布的博客文章</p>
             </div>
         </div>
-        <div id="biaoti">
-            <div>标题</div>
-            <input type="text" name="name" id="name">
-            <button type="button" id="baocun">发表文章</button>
-            <div id="displayey" style="display: inline-block;"></div>
-        </div>
-        <div class="content">
-            <script id="container" name="content" type="text/plain" style="display: block;">
-            </script>
-        </div>
         <div id="cont" style="position: relative;left:0px;"></div>
-      </div><!-- /.row -->
-    </div><!-- /.container -->
-    <script type="text/javascript">
-        var ue = UE.getEditor('container');
-        localStorage.removeItem('ueditor_preference');
-    </script>
+      </div>
+    </div>
+    <script type="text/javascript" src="new.js"></script>
     
     <script>
-        if (!Date.format) {
-            Date.prototype.format = function (fmt) { //author: meizz 
-                var o = {
-                    "M+": this.getMonth() + 1, //月份 
-                    "d+": this.getDate(), //日 
-                    "h+": this.getHours(), //小时 
-                    "m+": this.getMinutes(), //分 
-                    "s+": this.getSeconds(), //秒 
-                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-                    "S": this.getMilliseconds() //毫秒 
-                };
-                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-                for (var k in o)
-                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-                return fmt;
-            }
-        }
-        $.ajax({
-            url: '../php/all.php',
-            success: function(res) {
-                res = JSON.parse(res);
-                for (var i = 0, len = res.length; i < len; i++) { 
-                    var hh = $('<div contentEditable="true" class="newessay" style="height:400px;margin: 100px 0px 10px;border: 2px dashed #c3bdbd;border-radius:10px;"><h3>' +'文章'  + '<small> <span class="artile-num">'+ res[i].id  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + res[i].content + '</div></div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>' +'<button type="button" class="chgeesy">' + '修改文章' + '</button>')
-                    $('#cont').prepend(hh);
+        $(function() {
+            $.ajax({
+                url: '../php/all.php',
+                success: function(res) {
+                    res = JSON.parse(res);
+                    if (res.length) {
+                        for (var i = 0, len = res.length; i < len; i++) { 
+                            var hh = $('<div class="newessay" style="margin: 100px 0px 10px;padding:10px;border: 4px double #c3bdbd;border-radius:10px; overflow:hidden"><h3>' +'文章'  + '<small> <span class="artile-num">'+ res[i].id  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + res[i].content + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>' +'<button type="button" class="chgeesy">' + '修改文章' + '</button></div>')
+                            $('#cont').prepend(hh);
+                        }
+                        $('.chgeesy').on('click', function() {
+                            var title = $(this).parent().find('.artile-title').html();
+                            // var contt = $(this).parent().find('.artile-contt').html();
+                            var num = $(this).parent().find('.artile-num').html();
+                            location.href = `./article.php?id=${num}&title=${title}`;
+                            // console.log(num, title);
+                        });
+                    } else {
+                        var hh = $('<h1>你还没有发表任何文章</h1>');
+                        $('#cont').prepend(hh);
+                    }
                 }
-            }
+            });
+            $('#baocun').click(function() {
+                var title = $('#name').val();
+                var content = localStorage.getItem('ueditor_preference');
+                if (!title.trim()) {
+                    alert('请输入文章名');
+                    return;
+                }
+
+                content = JSON.parse(content);
+                content = content['http_localhost_clblog_blog_article_phpcontainer-drafts-data'];
+                
+                if (!content.trim()) {
+                    alert('请输入内容');
+                    return;
+                }
+                $.ajax({
+                    url: 'http://localhost/clblog/php/upload.php',
+                    type: 'POST',
+                    headrs: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    data: {
+                        content,
+                        name: title,
+                    },
+                    success: function(res) {
+                        res = JSON.parse(res);
+                        if (res.status_code === 2) {
+                            document.getElementById("displayey").innerHTML = "添加文章成功";
+                            alert('添加文章成功');
+                            location.href = './newindex.php';
+                        } else {
+                            document.getElementById("displayey").innerHTML = "添加文章失败";
+                        }
+                    },
+                    fail: err => {
+                        console.log(err);
+                    }
+                });
+            });
         });
     </script>
-    <script type="text/javascript" src="new.js"></script>
   </body>
 </html>
