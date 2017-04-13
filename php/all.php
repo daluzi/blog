@@ -2,12 +2,14 @@
 session_start();
 include('../blog/conn.php');
 
-if (isset($_SESSION['username'])) {
+// var_dump($_GET['user_id']);
+
+if ($_GET['user_id']) {
     $id = $_SESSION['user_id'];
-    $sth = $dbh->prepare('SELECT * FROM category WHERE user_id = :id');
+    $sth = $dbh->prepare('SELECT c.*, u.username FROM category AS c INNER JOIN user AS u ON c.user_id = :id AND u.id = c.user_id');
 	$sth->bindParam('id', $id);
 } else {
-    $sth = $dbh->prepare('SELECT * FROM category');
+    $sth = $dbh->prepare('SELECT c.*, u.username FROM category AS c LEFT JOIN user AS u ON  u.id = c.user_id');
 }
 $sth->execute();
 $res = $sth->fetchAll();

@@ -18,7 +18,7 @@
     <script src="index-changcolor.js"></script>
   </head>
 <body>
-    <div class="blog-masthead changeclr">
+    <div class="blog-masthead changeclr navbar-fixed-top">
       <div class="container">
             <nav class="blog-nav">
                 <a class="blog-nav-item active" href="index.php">主页</a>
@@ -31,11 +31,10 @@
             </nav>
         </div>
     </div>
-    <div class="container changeclr">
-        <div class="blog-header">
-            <h1 class="blog-title" id="blog-title">Blog</h1>
+    <div class="container changeclr" style="margin-top: 40px;">
+        <!-- <div class="blog-header">
             <p class="lead blog-description">主页查看文章</p>
-        </div>
+        </div> -->
         <div class="row">
             <div class="col-sm-8 blog-main">
                 <div id="cont" style="position: relative;left:0px;">
@@ -43,6 +42,7 @@
             </div>
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
+                    <h1 class="blog-title" id="blog-title"></h1>
                     <h4>关于</h4>
                     <p>这是博客主页，可以查看博主发布的所有文章</p>
                 </div>
@@ -68,11 +68,11 @@
             }
         }
         $.ajax({
-            url: '../php/all.php',
+            url: '../php/all.php?user_id=0',
             success: function(res) {
                 res = JSON.parse(res);
                 for (var i = 0, len = res.length; i < len; i++) { 
-                    var hh = $('<div class="newessay" style="height:400px;margin: 30px 0px 10px;border: 2px dashed #c3bdbd;border-radius:10px;"><h3>' +'文章'  + '<small>'+ res[i].id  +'</small>'+':' + res[i].name + '</h3><div>' + res[i].content + '</div></div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>')
+                    var hh = $('<div class="newessay" style="height:400px;margin: 30px 0px 10px;border: 2px dashed #c3bdbd;border-radius:10px;"><h3><small style="color: #e15353">' + res[i].username +'</small>:' + res[i].name + '</h3><div>' + res[i].content + '</div></div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>')
                     $('#cont').prepend(hh);
                 }
             }

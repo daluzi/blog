@@ -22,7 +22,7 @@
     <script type="text/javascript" charset="gbk" src="lang/zh-cn/zh-cn.js"></script>
 </head>
 <body>
-    <div class="blog-masthead">
+    <div class="blog-masthead navbar-fixed-top" style="overflow: hidden;">
       <div class="container">
         <nav class="blog-nav">
             <a class="blog-nav-item" href="./index.php">首页</a>
@@ -40,12 +40,13 @@
         </nav>
       </div>
     </div>
-    <div class="container">
+    <div class="container" style="margin-top: 40px;">
       <div class="row">
         <div class="col-sm-8 blog-main">
         </div>
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
+                <!-- <h1 class="blog-title" id="blog-title"></h1> -->
                 <h4>关于</h4>
                 <p>此网页为博主发布的博客文章</p>
             </div>
@@ -58,20 +59,36 @@
     <script>
         $(function() {
             $.ajax({
-                url: '../php/all.php',
+                url: '../php/all.php?user_id=me',
                 success: function(res) {
                     res = JSON.parse(res);
                     if (res.length) {
                         for (var i = 0, len = res.length; i < len; i++) { 
-                            var hh = $('<div class="newessay" style="margin: 100px 0px 10px;padding:10px;border: 4px double #c3bdbd;border-radius:10px; overflow:hidden"><h3>' +'文章'  + '<small> <span class="artile-num">'+ res[i].id  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + res[i].content + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>' +'<button type="button" class="chgeesy">' + '修改文章' + '</button></div>')
+                            var hh = $('<div class="newessay" style="margin: 100px 0px 10px;padding:10px;border: 4px double #c3bdbd;border-radius:10px; overflow:hidden"><h3>' +'文章'  + '<small> <span class="artile-num">'+ res[i].id  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + res[i].content + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>' +'<button class="btn btn-default chgeesy">修改文章</button><button class="btn btn-default deleteArtile">删除文章</button></div>')
                             $('#cont').prepend(hh);
                         }
                         $('.chgeesy').on('click', function() {
                             var title = $(this).parent().find('.artile-title').html();
-                            // var contt = $(this).parent().find('.artile-contt').html();
                             var num = $(this).parent().find('.artile-num').html();
                             location.href = `./article.php?id=${num}&title=${title}`;
-                            // console.log(num, title);
+                        });
+                        $('.deleteArtile').on('click', function() {
+                            if (window.confirm('你是否确定删除该文章?')) {
+                                var title = $(this).parent().find('.artile-title').html();
+                                var id = $(this).parent().find('.artile-num').html();
+                                $.ajax({
+                                    url: '../php/delete.php',
+                                    type: 'POST',
+                                    data: {
+                                        title,
+                                        id
+                                    },
+                                    success: function (res) {
+                                        alert('删除文章成功');
+                                        location.reload();
+                                    }
+                                });
+                            }
                         });
                     } else {
                         var hh = $('<h1>你还没有发表任何文章</h1>');
