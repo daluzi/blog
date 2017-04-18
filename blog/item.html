@@ -1,0 +1,71 @@
+<?php 
+    session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Blog</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="blog.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./style/default.css" id = 'link'/>
+    <script src="jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="marked.js"></script>
+  </head>
+<body>
+    <div class="blog-masthead changeclr navbar-fixed-top">
+      <div class="container">
+            <nav class="blog-nav">
+                <a class="blog-nav-item active" href="index.php">主页</a>
+                <a class="blog-nav-item signin" href="./newindex.php">后台管理</a>
+            </nav>
+        </div>
+    </div>
+    <div class="container changeclr" style="margin-top: 40px;">
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                <div id="cont" style="position: relative;left:0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        if (!Date.format) {
+            Date.prototype.format = function (fmt) { //author: meizz 
+                var o = {
+                    "M+": this.getMonth() + 1, //月份 
+                    "d+": this.getDate(), //日 
+                    "h+": this.getHours(), //小时 
+                    "m+": this.getMinutes(), //分 
+                    "s+": this.getSeconds(), //秒 
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                    "S": this.getMilliseconds() //毫秒 
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            }
+        }
+        $(function() {
+            var search = location.search;
+            var id = parseInt(search.split('name=')[1]);
+            console.log(id);
+            $.ajax({
+                url: '../php/article.php?id=' + id,
+                success: function(res) {
+                    res = JSON.parse(res);
+                    var hh = $('<div class="newessay"><h3><small style="color: #e15353;margin-right:20px;">' + res.username +':</small>' + res.name + '</h3><div style="padding-left:20px;">' + marked(res.content) + '</div><p style="font-size:14px; color:#7c6363">' + new Date(parseInt(res.time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
+                    $('#cont').prepend(hh);
+                }
+            });
+        })
+    </script>
+</body>
+</html>

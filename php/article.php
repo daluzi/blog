@@ -3,10 +3,8 @@ session_start();
 include('../blog/conn.php');
 
 $id = $_GET['id'];
-if (isset($_SESSION['username'])) {
-    $user_id = $_SESSION['user_id'];
-    $sth = $dbh->prepare('SELECT * FROM category WHERE user_id = :user_id AND id = :id');
-    $sth->bindParam('user_id', $user_id);
+if (isset($_SESSION['user_id'])) {
+    $sth = $dbh->prepare('SELECT * FROM category, user WHERE user.id = category.user_id AND category.id = :id');
     $sth->bindParam('id', $id);
 } else {
     echo json_encode([

@@ -17,9 +17,7 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet"> 
     <link href="blog.css" rel="stylesheet">
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" charset="gbk" src="ueditor.config.js"></script>
-    <script type="text/javascript" charset="gbk" src="ueditor.all.js"></script>
-    <script type="text/javascript" charset="gbk" src="lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="marked.js"></script>
 </head>
 <body>
     <div class="blog-masthead navbar-fixed-top" style="overflow: hidden;">
@@ -64,18 +62,19 @@
                     res = JSON.parse(res);
                     if (res.length) {
                         for (var i = 0, len = res.length; i < len; i++) { 
-                            var hh = $('<div class="newessay" style="margin: 100px 0px 10px;padding:10px;border: 4px double #c3bdbd;border-radius:10px; overflow:hidden"><h3>' +'文章'  + '<small> <span class="artile-num">'+ res[i].id  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + res[i].content + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>' +'<button class="btn btn-default chgeesy">修改文章</button><button class="btn btn-default deleteArtile">删除文章</button></div>')
+                            var hh = $('<div class="newessay"><div class="alists"><h3>' +'文章'  + '<small><span style="display:none" class="artile-id">' + res[i].id + '</span> <span class="artile-num">'+ parseInt(1+parseInt(i))  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + marked(res[i].content) + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>' +'<button class="btn btn-default chgeesy">修改文章</button><button class="btn btn-default deleteArtile">删除文章</button></div>')
                             $('#cont').prepend(hh);
                         }
                         $('.chgeesy').on('click', function() {
                             var title = $(this).parent().find('.artile-title').html();
-                            var num = $(this).parent().find('.artile-num').html();
+                            var num = $(this).parent().find('.artile-id').html();
                             location.href = `./article.php?id=${num}&title=${title}`;
+                            console.log(title, num);
                         });
                         $('.deleteArtile').on('click', function() {
                             if (window.confirm('你是否确定删除该文章?')) {
                                 var title = $(this).parent().find('.artile-title').html();
-                                var id = $(this).parent().find('.artile-num').html();
+                                var id = $(this).parent().find('.artile-id').html();
                                 $.ajax({
                                     url: '../php/delete.php',
                                     type: 'POST',
@@ -98,15 +97,18 @@
             });
             $('#baocun').click(function() {
                 var title = $('#name').val();
-                var content = localStorage.getItem('ueditor_preference');
                 if (!title.trim()) {
                     alert('请输入文章名');
                     return;
                 }
 
-                content = JSON.parse(content);
-                content = content['http_localhost_clblog_blog_article_phpcontainer-drafts-data'];
-                
+                var content = '';
+                for (var sessionName in window.localStorage) {
+                    if (sessionName.match(/\d+\$article/g)) {
+                        var val = window.localStorage[sessionName];
+                        content = val;
+                    }
+                }
                 if (!content.trim()) {
                     alert('请输入内容');
                     return;

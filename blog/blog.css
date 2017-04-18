@@ -1,14 +1,16 @@
 /*
  * Globals
  */
-
+html {
+  min-height: 100%;
+}
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
   background-color: rgba(195, 195, 195, 0.42);
   background-image: url(./img/img.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  min-height: 100%;
 }
 
 h1, .h1,
@@ -58,13 +60,14 @@ h6, .h6 {
   color: #fff;
   text-decoration: none;
 }
-.signin, .logout{
-  position: relative;
-  right: -650px;
+.signin {
+  float: right;
+}
+.logout{
+  float: right;
 }
 .register{
-    position: relative;
-    right: -650px;
+  float: right;
 }
 /* Active state gets a caret at the bottom */
 .blog-nav .active {
@@ -83,7 +86,17 @@ h6, .h6 {
   border-bottom: 5px solid;
   border-left: 5px solid transparent;
 }
-
+.alists {
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
+  max-height: 250px;
+  margin: 30px 0px 10px;
+  overflow: hidden;
+}
+.alists img {
+  display: none;
+}
 
 /*
  * Blog name and description
@@ -109,7 +122,13 @@ h6, .h6 {
   font-size: 20px;
   color: #999;
 }
-
+.newessay {
+  box-sizing: border-box;
+  padding: 20px;
+  border: 2px dashed #c3bdbd;
+  border-radius:10px;
+  overflow: hidden;
+}
 
 /*
  * Main column and sidebar layout
@@ -181,6 +200,9 @@ h6, .h6 {
 .deleteArtile {
   float: right;
   margin-right: 20px;
+}
+.targetElem {
+  text-align: center;
 }
 
 /*

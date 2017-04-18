@@ -29,8 +29,7 @@ if(!$res) {
     if ($res[0]['password'] == MD5($password)) {
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $res[0]['id'];
-        // echo $_SESSION['user_id'];
-        $_SESSION['theme'] = '默认主题';
+        $_SESSION['theme'] = 'default';
         echo json_encode([
             'status_code' => 1,
             'status' => '登录成功'

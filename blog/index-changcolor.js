@@ -1,160 +1,162 @@
-
-/**
- * JSÊµÏÖ»»·ô¹¦ÄÜ
- */
-// Google ChromeÖ»Ö§³ÖÔÚÏßÍøÕ¾µÄcookieµÄ¶ÁĞ´²Ù×÷£¬¶Ô±¾µØhtmlµÄcookie²Ù×÷ÊÇ½ûÖ¹µÄ¡£
-// name1=value1;name2=value2;name3=value3;name4=value4
- function Skin(options) {
+function Skin(options) {
  
-	this.config = {
-		targetElem                :  '.targetElem',
-		link                      :  '#link'
-	};
-	this.cache = {
-		defaultList        : ['default','green','red','orange']
-	};
+    this.config = {
+        targetElem: '.targetElem',
+        link: '#link',
+        type: localStorage.getItem('type') || 'cookie' // æˆ–è€…storageï¼Œ( PHPä¸ºåç«¯è®¾ç½®
+    };
+    this.cache = {
+        defaultList: ['default','green','red','orange']
+    };
 
-	this.init(options);
+    this.init(options);
  }
 
- Skin.prototype = {
-	
-	constructor: Skin,
-	init: function(options) {
-		this.config = $.extend(this.config,options || {});
-		var self = this,
-			_config = self.config;
-		
-		$(_config.targetElem).each(function(index,item) {
-			
-			$(item).unbind('click');
-			$(item).bind('click',function(){
-				var attr = $(this).attr('data-value');
-				self._doSthing(attr);
-			});
-		});
-		// ÅĞ¶ÏÊÇ·ñÊÇ¹È¸èÓÎÀÀÆ÷ ¹È¸èÓÎÀÀÆ÷ÒòÎª²»Ö§³ÖcookieÔÚ±¾µØÉÏ´æ´¢ ËùÒÔÒıÈëÁËHTML5
-		if(window.navigator.userAgent.indexOf("Chrome") !== -1) {
-			var tempCookeie = self._loadStorage("skinName"),
-				t;
-			if(tempCookeie != "null") {
-				t = tempCookeie;
-			}else {
-				t = 'default';
-			}
-			self._setSkin(t);
+Skin.prototype = {
+    constructor: Skin,
+    init: function(options) {
+        this.config = $.extend(this.config,options || {});
+        var self = this,
+            _config = self.config;
+        
+        $(_config.targetElem).each(function(index,item) {
+            
+            $(item).unbind('click');
+            $(item).bind('click',function(){
+                var attr = $(this).attr('data-value');
+                self.setTheme(attr);
+            });
+        });
+        if(self.config.type === 'storage') { //1
+            var tempCookeie = self._loadStorage("skinName"),
+                t;
+            if(tempCookeie != "null") {
+                t = tempCookeie;
+            }else {
+                t = 'default';
+            }
+            self._setSkin(t);
 
-		}else {
-			var tempCookeie = self._getCookie("skinName");
-			self._setSkin(tempCookeie);
-		}
-		
-	},
-	/*
-	 * ½øĞĞÅĞ¶Ï À´ÉèÖÃcssÑùÊ½
-	 */
-	_doSthing: function(attr) {
-		var self = this,
-			_config = self.config,
-			_cache = self.cache;
-		if(window.navigator.userAgent.indexOf("Chrome") !== -1) {
-			self._doStorage(attr);
-			var istrue = localStorage.getItem(attr);
-			self._setSkin(attr);
-		}else {
-			var istrue = self._getCookie(attr);
-			if(istrue) {
-				for(var i = 0; i < _cache.defaultList.length; i++) {
-					if(istrue == _cache.defaultList[i]) {
-						self._setSkin(_cache.defaultList[i]);
-					}
-				}
-			}
-		}
-		
-	},
-	/*
-	 * ¸Ä±äÑùÊ½
-	 */
-	_setSkin: function(skinValue){
-		
-		var self = this,
-			_config = self.config;
-		
-		if(skinValue) {
-			$(_config.link).attr('href',"style/"+skinValue+".css");
-		}
-		if(window.navigator.userAgent.indexOf("Chrome") !== -1) {
-			self._saveStorage(skinValue);
-		}else {
-			self._setCookie("skinName",skinValue,7);
-		}
-		
-	},
-	/*
-	 * ÖØĞÂ
-	 */
-	_doStorage: function(attr) {
-		var self = this;
-		self._saveStorage(attr);
-	},
-	/*
-	 * html5»ñÈ¡±¾µØ´æ´¢
-	 */
-	_loadStorage: function(attr) {
-		var str = localStorage.getItem(attr);
-		return str;
-	},
-	/*
-	 * HTML5±¾µØ´æ´¢ 
-	 */
-	_saveStorage:function(skinValue) {
-		var self = this;
-		localStorage.setItem("skinName",skinValue);
-	},
-	/*
-	 * getCookie
-	 */
-	_getCookie: function(name) {
-		var self = this,
-			_config = self.config;
-		var arr = document.cookie.split("; ");
-		for(var i = 0; i < arr.length; i+=1) {
-			var prefix = arr[i].split('=');
-			if(prefix[0] == name) {
-				return prefix[1];
-			}
-		}
-		return name;
-	},
-	/*
-	 * _setCookie
-	 */
-	_setCookie: function(name,value,days) {
-		var self = this;
+        } else {
+            var tempCookeie = self._getCookie("skinName");
+            self._setSkin(tempCookeie);
+        }
+    },
+    /*
+     *  æ¥è®¾ç½®cssæ ·å¼
+     */
+    setTheme: function(attr) {
+        var self = this,
+            _config = self.config,
+            _cache = self.cache;
+        
+        if(self.config.type === 'storage') { //2
+            self._doStorage(attr);
+            var istrue = localStorage.getItem(attr);
+            self._setSkin(attr);
+        }else {
+            var istrue = self._getCookie(attr);
+            if(istrue) {
+                for(var i = 0; i < _cache.defaultList.length; i++) {
+                    if(istrue == _cache.defaultList[i]) {
+                        self._setSkin(_cache.defaultList[i]);
+                    }
+                }
+            }
+        }
+    },
+    /*
+     * æ”¹å˜æ ·å¼
+     */
+    _setSkin: function(skinValue){
+        
+        var self = this,
+            _config = self.config;
+        
+        if(!skinValue) {
+            if(self.config.type === 'storage') {
+                skinValue = self._loadStorage('skinName');
+            }else {
+                skinValue = self._getCookie("skinName");
+            }
+        }
+        $(_config.link).attr('href',"style/"+skinValue+".css");
 
-		if (days){
-			var date = new Date();
-			date.setTime(date.getTime()+(days*24*60*60*1000));
-			var expires = "; expires="+date.toGMTString();
-		}else {
-			var expires = "";
-		}
-		document.cookie = name+"="+value+expires+"; path=/";
-	},
-	/*
-	 * removeCookie
-	 */
-	_removeCookie: function(name) {
-		var self = this;
+        if(self.config.type === 'storage') { //3
+            self._saveStorage(skinValue);
+        }else {
+            self._setCookie("skinName",skinValue,7);
+        }
+        
+    },
 
-		//µ÷ÓÃ_setCookie()º¯Êı,ÉèÖÃÎª1Ìì¹ıÆÚ,¼ÆËã»ú×Ô¶¯É¾³ı¹ıÆÚcookie
-		self._setCookie(name,1,1);
-	}
+    _doStorage: function(attr) {
+        var self = this;
+        self._saveStorage(attr);
+    },
+    /*
+     * html5è·å–æœ¬åœ°å­˜å‚¨
+     */
+    _loadStorage: function(attr) {
+        var str = localStorage.getItem(attr);
+        return str;
+    },
+    /*
+     * HTML5æœ¬åœ°å­˜å‚¨ 
+     */
+    _saveStorage:function(skinValue) {
+        var self = this;
+        localStorage.setItem("skinName",skinValue);
+    },
+    /*
+     * getCookie
+     */
+    _getCookie: function(name) {
+        var self = this,
+            _config = self.config;
+        var arr = document.cookie.split("; ");
+        for(var i = 0; i < arr.length; i+=1) {
+            var prefix = arr[i].split('=');
+            if(prefix[0] == name) {
+                return prefix[1];
+            }
+        }
+        return name;
+    },
+    /*
+     * _setCookie
+     */
+    _setCookie: function(name,value,days) {
+        var self = this;
+
+        if (days){
+            var date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            var expires = "; expires="+date.toGMTString();
+        }else {
+            var expires = "";
+        }
+        document.cookie = name+"="+value+expires+"; path=/";
+    },
+    /*
+     * removeCookie
+     */
+    _removeCookie: function(name) {
+        var self = this;
+
+        //è°ƒç”¨_setCookie()å‡½æ•°,è®¾ç½®ä¸º1å¤©è¿‡æœŸ,è®¡ç®—æœºè‡ªåŠ¨åˆ é™¤è¿‡æœŸcookie
+        self._setCookie(name,1,1);
+    }
  };
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 $(function(){
-	new Skin({});
+    var skin = new Skin({});
+    $('.theme').on('click', function(e) {
+        var value = $(this).data('value');
+        skin.config.type = value;
+        skin._setSkin();
+        localStorage.setItem('type', value);
+    });
 });
  

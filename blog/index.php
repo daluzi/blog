@@ -15,26 +15,87 @@
     <link href="blog.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./style/default.css" id = 'link'/>
     <script src="jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="marked.js"></script>
+    <script>
+        $(function() {
+            var search = location.search;
+            if (search == '?theme=php') {
+                $.ajax({
+                    url: '../php/theme.php?theme=null',
+                    success: function(res) {
+                        res = JSON.parse(res);
+                        skinValue = res.theme;
+                        $('#link').attr('href',"style/"+skinValue+".css");
+                    }
+                });
+                $('.targetElem').each(function() {
+                    $(this).removeClass('targetElem').addClass('hehe');
+                });
+                $('.hehe').on('click', function() {
+                    var type = $(this).data('value');
+                    $.ajax({
+                        url: '../php/theme.php?theme=' + type,
+                        success: function(res) {
+                            res = JSON.parse(res);
+                            if (res.status_code) {
+                                $('#link').attr('href',"style/"+type+".css");
+                            }
+                        }
+                    });
+                });
+            }
+        })
+    </script>
     <script src="index-changcolor.js"></script>
   </head>
 <body>
     <div class="blog-masthead changeclr navbar-fixed-top">
       <div class="container">
             <nav class="blog-nav">
-                <a class="blog-nav-item active" href="index.php">主页</a>
-                <input type="button" data-value="default" class="targetElem" value="default" style="width: 50px; border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;" />
-                <input type="button" data-value="green" class="targetElem" value="green" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;" />
-                <input type="button" data-value="red" class="targetElem" value="red" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
-                <input type="button" data-value="orange" class="targetElem" value="orange" style="width: 50px;border: 1px solid #fff;border-radius: 8px;background-color: #fbfbe3;"/>
-                
+                <a class="blog-nav-item active" href="index.php" style="float: left;">主页</a>
+                <ul class="nav nav-tabs" style="float: left;">
+                    <li class="active">
+                    <li class="dropdown pull-right">
+                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">选择主题<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu" style="width: 100%; min-width: inherit;">
+                            <li>
+                                 <a href="##" data-value="default" class="targetElem">默认</a>
+                            </li>
+                            <li>
+                                 <a href="##" data-value="green" class="targetElem">绿</a>
+                            </li>
+                            <li>
+                                 <a href="##" data-value="red" class="targetElem">红</a>
+                            </li>
+                            <li>
+                                 <a href="##" data-value="orange" class="targetElem">橘</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav nav-tabs" style="float: right;">
+                    <li class="active">
+                    <li class="dropdown pull-right">
+                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">主题管理<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu" style="width: 100%; min-width: inherit;">
+                            <li>
+                                 <a href="./" data-value="cookie" class="theme">cookie</a>
+                            </li>
+                            <li>
+                                 <a href="./" data-value="storage" class="theme">storage</a>
+                            </li>
+                            <li>
+                                 <a href="./?theme=php" data-value="php" class="themes">后端</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <a class="blog-nav-item signin" href="./newindex.php">后台管理</a>
             </nav>
         </div>
     </div>
     <div class="container changeclr" style="margin-top: 40px;">
-        <!-- <div class="blog-header">
-            <p class="lead blog-description">主页查看文章</p>
-        </div> -->
         <div class="row">
             <div class="col-sm-8 blog-main">
                 <div id="cont" style="position: relative;left:0px;">
@@ -46,8 +107,8 @@
                     <h4>关于</h4>
                     <p>这是博客主页，可以查看博主发布的所有文章</p>
                 </div>
-            </div><!-- /.blog-sidebar -->
-        </div><!-- /.row -->
+            </div>
+        </div>
     </div>
     <script>
         if (!Date.format) {
@@ -72,7 +133,7 @@
             success: function(res) {
                 res = JSON.parse(res);
                 for (var i = 0, len = res.length; i < len; i++) { 
-                    var hh = $('<div class="newessay" style="height:400px;margin: 30px 0px 10px;border: 2px dashed #c3bdbd;border-radius:10px;"><h3><small style="color: #e15353">' + res[i].username +'</small>:' + res[i].name + '</h3><div>' + res[i].content + '</div></div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p>')
+                    var hh = $('<div class="newessay alists"><h3><small style="color: #e15353;margin-right:20px;">' + res[i].username +':</small><a href="./item.html?name=' + res[i].id + '">' + res[i].name + '</a></h3><div style="padding-left:20px;">' + marked(res[i].content) + '</div><p style="font-size:14px; color:#7c6363">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
                     $('#cont').prepend(hh);
                 }
             }

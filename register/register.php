@@ -35,7 +35,7 @@ if(!empty($res)) {
 //写入数据
 $password = MD5($password);
 
-$sth = $dbh->prepare('INSERT INTO user(id, username, password, theme) VALUES(null, :username,:password, "默认主题")');
+$sth = $dbh->prepare('INSERT INTO user(id, username, password, theme) VALUES(null, :username,:password, "default")');
 $sth->bindParam('username', $username);
 $sth->bindParam('password', $password);
 $res = $sth->execute();
