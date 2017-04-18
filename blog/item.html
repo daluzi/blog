@@ -13,7 +13,7 @@
     <title>Blog</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="blog.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./style/default.css" id = 'link'/>
+    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
     <script src="jquery.js"></script>
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="marked.js"></script>
@@ -29,7 +29,7 @@
     </div>
     <div class="container changeclr" style="margin-top: 40px;">
         <div class="row">
-            <div class="col-sm-8 blog-main">
+            <div class="blog-main">
                 <div id="cont" style="position: relative;left:0px;">
                 </div>
             </div>
@@ -56,12 +56,14 @@
         $(function() {
             var search = location.search;
             var id = parseInt(search.split('name=')[1]);
-            console.log(id);
+            var theme = search.split('theme=')[1];
+
+            $('#link').attr('href', './style/' + theme + '.css');
             $.ajax({
                 url: '../php/article.php?id=' + id,
                 success: function(res) {
                     res = JSON.parse(res);
-                    var hh = $('<div class="newessay"><h3><small style="color: #e15353;margin-right:20px;">' + res.username +':</small>' + res.name + '</h3><div style="padding-left:20px;">' + marked(res.content) + '</div><p style="font-size:14px; color:#7c6363">' + new Date(parseInt(res.time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
+                    var hh = $('<div class="newessay"><h3>' + res.name + '</h3><div style="padding-left:20px;">' + marked(res.content) + '</div><p style="font-size:14px; color:#7c6363"><span style="color: #e15353;margin-right:20px;">作者：' + res.username +'</span>最后更新时间：' + new Date(parseInt(res.time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
                     $('#cont').prepend(hh);
                 }
             });

@@ -74,7 +74,7 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="nav nav-tabs" style="float: right;">
+                <!-- <ul class="nav nav-tabs" style="float: right;">
                     <li class="active">
                     <li class="dropdown pull-right">
                          <a href="#" data-toggle="dropdown" class="dropdown-toggle">主题管理<strong class="caret"></strong></a>
@@ -90,7 +90,7 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
+                </ul> -->
                 <a class="blog-nav-item signin" href="./newindex.php">后台管理</a>
             </nav>
         </div>
@@ -133,11 +133,22 @@
             success: function(res) {
                 res = JSON.parse(res);
                 for (var i = 0, len = res.length; i < len; i++) { 
-                    var hh = $('<div class="newessay alists"><h3><small style="color: #e15353;margin-right:20px;">' + res[i].username +':</small><a href="./item.html?name=' + res[i].id + '">' + res[i].name + '</a></h3><div style="padding-left:20px;">' + marked(res[i].content) + '</div><p style="font-size:14px; color:#7c6363">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
+                    var hh = $('<div class="newessay alists" style="border-bottom: 2px dashed #c3bdbd;"><h3>文章标题：<a class="items" href="./item.html?name=' + res[i].id + '">' + res[i].name + '</a></h3><div style="padding-left:20px;max-height:160px;overflow:hidden">' + marked(res[i].content) + '</div><p style="font-size:14px;margin-top:10px; color:#7c6363"><span style="color: #e15353;margin-right:20px;">作者：' + res[i].username +'</span>最后更新时间：' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
                     $('#cont').prepend(hh);
                 }
             }
         });
+        $(function() {
+            $('.items').on('click', function(e) {
+                e.preventDefault();
+                var css = $('#link').attr('href');
+                css = css.match(/\/.*\./)[0];
+                css = css.substring(1, css.length-1);
+                var url = $(this).attr('href') + '&theme=' + css;
+                location.href = url;
+                return false;
+            });
+        })
     </script>
 </body>
 </html>

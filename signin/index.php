@@ -11,9 +11,18 @@
         <script type="text/javascript" src="jquery.js"></script>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="signin.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../blog/blog.css">
     </head>
 <body>
-    <div class="container">
+    <div class="blog-masthead changeclr navbar-fixed-top">
+      <div class="container">
+            <nav class="blog-nav">
+                <a class="blog-nav-item active" href="../blog/index.php">主页</a>
+                <a class="blog-nav-item signin" href="../blog/newindex.php">后台管理</a>
+            </nav>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 150px;">
       <form class="form-signin">
         <h2 class="form-signin-heading">
             请登录
