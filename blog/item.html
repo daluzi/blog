@@ -13,8 +13,12 @@
     <title>Blog</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="blog.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
     <script src="jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
+    <script type="text/javascript">
+        var theme = localStorage.getItem('mySkin') || 'default';
+        $('#link').attr('href', './style/' + theme + '.css');
+    </script>
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="marked.js"></script>
   </head>
@@ -54,15 +58,15 @@
             }
         }
         $(function() {
+
             var search = location.search;
             var id = parseInt(search.split('name=')[1]);
-            var theme = search.split('theme=')[1];
-
-            $('#link').attr('href', './style/' + theme + '.css');
             $.ajax({
                 url: '../php/article.php?id=' + id,
                 success: function(res) {
                     res = JSON.parse(res);
+                    // console.log(document.title);
+                    document.title = res.name;
                     var hh = $('<div class="newessay"><h3>' + res.name + '</h3><div style="padding-left:20px;">' + marked(res.content) + '</div><p style="font-size:14px; color:#7c6363"><span style="color: #e15353;margin-right:20px;">作者：' + res.username +'</span>最后更新时间：' + new Date(parseInt(res.time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
                     $('#cont').prepend(hh);
                 }

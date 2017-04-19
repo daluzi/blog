@@ -13,11 +13,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <title>Blog</title>
+    <title></title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"> 
     <link href="blog.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./atom-one-light.css">
     <script type="text/javascript" src="jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
+    <script type="text/javascript">
+        var theme = localStorage.getItem('mySkin') || 'default';
+        $('#link').attr('href', './style/' + theme + '.css');
+    </script>
     <script type="text/javascript" src="highlight.js"></script>
     <script type="text/javascript" src="LanEditor.js"></script>
     <style type="text/css">
@@ -220,6 +225,7 @@
       }
     }
     if (urlObj.id) {
+        document.title = '修改文章';
         $.ajax({
             url: `../php/article.php?id=${urlObj.id}&title=${urlObj.title}`,
             success: function(res) {
@@ -273,6 +279,7 @@
             }
         });
     } else {
+        document.title = '添加文章';
         $('.submit').on('click', function() {
             var title = $('#name').val();
             

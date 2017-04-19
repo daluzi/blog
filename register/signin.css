@@ -45,3 +45,13 @@ body {
   font-size: 16px;
   font-style: italic;
 }
+.captcha {
+  width: 60%;
+  height: 42px;
+}
+.captcha-img {
+  height: 42px;
+}
+.register {
+  margin-top: 20px;
+}

@@ -36,7 +36,7 @@ if(!$res) {
         ]);
     } else {
         echo json_encode([
-            'status_code' => 0,
+            'status_code' => 2,
             'status' => '密码错误'
         ]);
     }

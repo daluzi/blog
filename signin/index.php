@@ -8,7 +8,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
         <title>Signin</title>
-        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="../blog/jquery.js"></script>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="signin.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../blog/blog.css">
@@ -32,6 +32,10 @@
         <input type="text" id="inputEmail" class="form-control userName" placeholder="用户名" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
         <input type="password" id="inputPassword" class="form-control password" placeholder="密码" required>
+        <div>
+            <input type="text" class="captcha" placeholder="验证码" required>
+            <img class="captcha-img" src="../php/captcha.php">
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="button" id="submit">登录</button>
       </form>
       <div id="urge" style="width: 200px; position: relative; left: 520px; top: -190px;"></div>

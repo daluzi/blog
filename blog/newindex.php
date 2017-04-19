@@ -13,10 +13,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-    <title>Blog</title>
+    <title>后台管理首页</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet"> 
     <link href="blog.css" rel="stylesheet">
     <script type="text/javascript" src="jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
+    <script type="text/javascript">
+        var theme = localStorage.getItem('mySkin') || 'default';
+        $('#link').attr('href', './style/' + theme + '.css');
+    </script>
     <script type="text/javascript" src="marked.js"></script>
 </head>
 <body>

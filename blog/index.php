@@ -13,8 +13,12 @@
     <title>Blog</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="blog.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./style/default.css" id = 'link'/>
     <script src="jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="" id = 'link'/>
+    <script type="text/javascript">
+        var theme = localStorage.getItem('mySkin') || 'default';
+        $('#link').attr('href', './style/' + theme + '.css');
+    </script>
     <script type="text/javascript" src="../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="marked.js"></script>
     <script>
@@ -138,17 +142,6 @@
                 }
             }
         });
-        $(function() {
-            $('.items').on('click', function(e) {
-                e.preventDefault();
-                var css = $('#link').attr('href');
-                css = css.match(/\/.*\./)[0];
-                css = css.substring(1, css.length-1);
-                var url = $(this).attr('href') + '&theme=' + css;
-                location.href = url;
-                return false;
-            });
-        })
     </script>
 </body>
 </html>

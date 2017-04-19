@@ -1,16 +1,16 @@
 function Skin(options) {
- 
-    this.config = {
-        targetElem: '.targetElem',
-        link: '#link',
-        type: localStorage.getItem('type') || 'cookie' // 或者storage，( PHP为后端设置
-    };
-    this.cache = {
-        defaultList: ['default','green','red','orange']
-    };
 
-    this.init(options);
- }
+this.config = {
+    targetElem: '.targetElem',
+    link: '#link',
+    type: 'cookie' // 或者storage，( PHP为后端设置
+};
+this.cache = {
+    defaultList: ['default','green','red','orange']
+};
+
+this.init(options);
+}
 
 Skin.prototype = {
     constructor: Skin,
@@ -32,7 +32,7 @@ Skin.prototype = {
                 t;
             if(tempCookeie != "null") {
                 t = tempCookeie;
-            }else {
+            } else {
                 t = 'default';
             }
             self._setSkin(t);
@@ -82,6 +82,7 @@ Skin.prototype = {
         }
         $(_config.link).attr('href',"style/"+skinValue+".css");
 
+        localStorage.setItem("mySkin", skinValue);
         if(self.config.type === 'storage') { //3
             self._saveStorage(skinValue);
         }else {
