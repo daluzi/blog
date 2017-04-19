@@ -55,21 +55,23 @@
             </div>
         </div>
         <div id="cont" style="position: relative;left:0px;"></div>
+        <div id="pages"></div>
       </div>
     </div>
-    <script type="text/javascript" src="new.js"></script>
-    
-    <script>
-        $(function() {
+
+    <script type="text/javascript">
+        function getArticle(page = 1) {
             $.ajax({
-                url: '../php/all.php?user_id=me',
+                url: '../php/all.php?user_id=me&page=' + page,
                 success: function(res) {
                     res = JSON.parse(res);
                     if (res.length) {
+                        var hh = '';
                         for (var i = 0, len = res.length; i < len; i++) { 
-                            var hh = $('<div class="newessay"><div class="alists"><h3>' +'文章'  + '<small><span style="display:none" class="artile-id">' + res[i].id + '</span> <span class="artile-num">'+ parseInt(1+parseInt(i))  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + marked(res[i].content) + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>' +'<button class="btn btn-default chgeesy">修改文章</button><button class="btn btn-default deleteArtile">删除文章</button></div>')
-                            $('#cont').prepend(hh);
+                            hh += '<div class="newessay"><div class="alists"><h3>' +'文章'  + '<small><span style="display:none" class="artile-id">' + res[i].id + '</span> <span class="artile-num">'+ parseInt(1+parseInt(i))  +'</small>: <span class="artile-title">' + res[i].name + '</span></h3><div class="artile-contt">' + marked(res[i].content) + '</div><p style="font-size:14px;">' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>' +'<button class="btn btn-default chgeesy">修改文章</button><button class="btn btn-default deleteArtile">删除文章</button></div>';
                         }
+                        $('#cont').html(hh);
+                        
                         $('.chgeesy').on('click', function() {
                             var title = $(this).parent().find('.artile-title').html();
                             var num = $(this).parent().find('.artile-id').html();
@@ -100,6 +102,24 @@
                     }
                 }
             });
+        }
+    </script>
+    <script type="text/javascript" src="new.js"></script>
+    <script type="text/javascript" src="pages.js"></script>
+    
+    <script>
+        $(function() {
+            $.ajax({
+                url: '../php/all.php?num=true&user_id=me',
+                success: function(res) {
+                    res = JSON.parse(res);
+                    createPageNav({
+                      $container: $("#pages"),
+                        pageCount: res
+                    });
+                }
+            });
+            getArticle(1);
             $('#baocun').click(function() {
                 var title = $('#name').val();
                 if (!title.trim()) {

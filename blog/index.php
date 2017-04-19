@@ -102,8 +102,7 @@
     <div class="container changeclr" style="margin-top: 40px;">
         <div class="row">
             <div class="col-sm-8 blog-main">
-                <div id="cont" style="position: relative;left:0px;">
-                </div>
+                <div id="cont" style="position: relative;left:0px;"></div>
             </div>
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
@@ -113,7 +112,29 @@
                 </div>
             </div>
         </div>
+        <div id="pages"></div>
     </div>
+    <script type="text/javascript">
+        function getArticle(page = 1) {
+            $.ajax({
+                url: '../php/all.php?user_id=0&page=' + page,
+                success: function(res) {
+                    res = JSON.parse(res);
+                    createPageNav({
+                      $container: $("#pages"),
+                        pageCount: res.count
+                    });
+                    var articles = res;
+                    var hh = ''
+                    for (var i = 0, len = articles.length; i < len; i++) { 
+                        hh += '<div class="newessay alists" style="border-bottom: 2px dashed #c3bdbd;"><h3>文章标题：<a class="items" href="./item.html?name=' + articles[i].id + '">' + articles[i].name + '</a></h3><div style="padding-left:20px;max-height:160px;overflow:hidden">' + marked(articles[i].content) + '</div><p style="font-size:14px;margin-top:10px; color:#7c6363"><span style="color: #e15353;margin-right:20px;">作者：' + articles[i].username +'</span>最后更新时间：' + new Date(parseInt(articles[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>'
+                    }
+                    $('#cont').html(hh);
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript" src="pages.js"></script>
     <script>
         if (!Date.format) {
             Date.prototype.format = function (fmt) { //author: meizz 
@@ -133,15 +154,16 @@
             }
         }
         $.ajax({
-            url: '../php/all.php?user_id=0',
+            url: '../php/all.php?num=true&user_id=0',
             success: function(res) {
                 res = JSON.parse(res);
-                for (var i = 0, len = res.length; i < len; i++) { 
-                    var hh = $('<div class="newessay alists" style="border-bottom: 2px dashed #c3bdbd;"><h3>文章标题：<a class="items" href="./item.html?name=' + res[i].id + '">' + res[i].name + '</a></h3><div style="padding-left:20px;max-height:160px;overflow:hidden">' + marked(res[i].content) + '</div><p style="font-size:14px;margin-top:10px; color:#7c6363"><span style="color: #e15353;margin-right:20px;">作者：' + res[i].username +'</span>最后更新时间：' + new Date(parseInt(res[i].time + '000')).format('yyyy-MM-dd hh:mm:ss') + '</p></div>')
-                    $('#cont').prepend(hh);
-                }
+                createPageNav({
+                  $container: $("#pages"),
+                    pageCount: res
+                });
             }
         });
+        getArticle(1);
     </script>
 </body>
 </html>
